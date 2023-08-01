@@ -2,3 +2,4 @@
 *migrations
 *core/static/files
 *instance
+*.env

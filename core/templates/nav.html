@@ -1,0 +1,51 @@
+<div class="w3-blue">
+<!--- Sidebar -->
+ <div class="w3-left w3-container">
+ <button class="w3-button" onclick="open_nav();">
+  <i class="fa fa-bar w3-xxlarge"></i>
+  </button>
+ <div id="sideBar" class="w3-container we-display-container w3-light-blue w3-animate-left" style="z-index:3; width:260px">
+  
+  <div class="w3-display-topright">
+  <!-- Close sidebar -->
+  <button class="w3-btn w3-transparent" onclick="close_nav();">
+  <i class="fa fa-remove w3-large"></i>
+  </button>
+  </div>
+  
+  <div class="w3-bar">
+  
+  <div class="w3-bar-item-block">
+  <a href="#">Recently </a>
+  </div>
+  
+  <div class="w3-bar-item-block">
+  <a href="#">Last week </a>
+  </div>
+ 
+  <div class="w3-bar-item-block">
+  <a href="#">Last Month </a>
+  </div>
+     
+  <div class="w3-bar-item-block">
+  <a href="#">Last Year</a>
+  </div>
+       
+  </div>
+ </div>
+ </div>
+ 
+ <div class="w3-center w3-container">
+ <header class="w3-xxxlarge">{{ app_details.name }} </header>
+ </div>
+ 
+ <div class="w3-right w3-container">
+  <form class="w3-hide-small" action="#" method="POST" enctype="multipart/form-data">
+  <input type="search" placeholder="Search ..." required></input>
+  <button type="submit" class="w3-button w3-right">
+    <i class="fa fa-search"></i>
+  </button>
+  </form>
+ </div>
+ 
+</div>

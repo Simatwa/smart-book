@@ -38,4 +38,4 @@ def send_mail(subject, *args, **kwargs):
 
 @application.route("/", methods=["GET", "POST"])
 def home():
-    return redirect(url_for("notes.index"))
+    return redirect(url_for("notes1.index"))

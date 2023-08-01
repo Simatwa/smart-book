@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<meta lang="en-US">
+<meta charset="UTF-8">
+<head>
+{% set app_details = app_details() %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ {% block head %} 
+  <title> {{ app_details.name }} | Home </title>
+ {% endblock %}
+
+{% for style_sheet in ["w3", "w3-colors-camo", "w3-colors-food", "w3-colors-highway", "w3pro", "notes",] %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/'+style_sheet+'.css') }}">
+{% endfor %}
+
+{% for js_script in ["w3", "notes", "w3codecolor",] %}
+ <script src="{{ url_for('static', filename='script/'+js_script+'.js') }}"></script>
+{% endfor %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+app_details.logo) }}">
+</head>
+<body>
+{% include 'nav.html' %}
+{% block body %} {% endblock %}
+{% include 'footer.html' %}
+</body>
+</html>

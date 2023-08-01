@@ -1,0 +1,24 @@
+{% extends 'base_.html' %}
+{% block body %}
+<div class="w3-container w3-cell">
+{{ pagination.info }}
+{% for notes in notes %}
+<div class="w3-container w3-display-container w3-cell-row w3-padding w3-card-4">
+ <h2 class="w3-center title"><a href="#link-to-view"> {{ notes.title }}</a> </h2>
+ <div class="w3-cell">
+ {% for tag in notes.tags %}
+   <div class="w3-cell-row w3-padding w3-border w3-border-green">
+   <p class="w3-text-{{ tag.color }} w3-center">{{ tag }}</p>
+   </div>
+ {% endfor %}
+ </div>
+ <div class="w3-container">
+  <p class="w3-food-pears w3-border">{{ notes.created_on }} </p>
+ </div>
+</div>
+{% endfor %}
+<div class="w3-container">
+{{ pagination.links }}
+</div>
+{% endblock %}
+</div>
