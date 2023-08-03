@@ -1,7 +1,7 @@
 {% extends 'base_.html' %}
 {% block body %}
 <div class="w3-row-padding w3-section w3-stretch">
-{{ pagination.info }}
+<h2 class="w3-center">{{ pagination.info }}</h2>
 {% for notes in notes %}
 <div class="w3-col s6 m4 l3 w3-card-4">
  <h4 class="w3-center"><a href="{{ url_for('notes1.note_view', id=notes.id) }}"> {{ notes.title }}</a> </h4>
@@ -19,7 +19,9 @@
 </div>
 {% endfor %}
 <div class="w3-container">
+ <div class="w3-center">
 {{ pagination.links }}
+ </div>
 </div>
 {% endblock %}
 </div>

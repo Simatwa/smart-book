@@ -7,11 +7,42 @@ from core.notes.models import Notes, Tags
 from core.accounts.models import Admin1
 from sqlalchemy import desc, or_
 from flask_paginate import Pagination, get_page_parameter
-from flask import request, render_template, jsonify, url_for
+from flask import request, render_template, jsonify, url_for, session
 from core.models import db
 from datetime import datetime, timedelta
 
-
+def get_notes_pagination(objects):
+        total = len(objects)
+        per_page = request.args.get('per_page',type=int, default=14)
+        page_no = request.args.get(
+            get_page_parameter(),
+            type=int,
+            default=1,
+        )
+        
+        if total <= per_page:
+        	notes = objects
+        	
+        else:
+        	end = per_page * page_no
+        	start = end - per_page
+        	if start > total:
+        		notes = []
+        	if start < total and end < total:
+        		notes = objects[start:end]
+        		
+        	elif start < total and not end < total:
+        		notes = objects[start:]
+        			
+        	else:
+        		notes = objects
+        	
+        pagination = Pagination(
+            total=total, page=page_no, record_name="notes", per_page=per_page
+        )
+        
+        return notes, pagination
+        
 class Index(View):
     methods = ["GET"]
     init_every_request = False
@@ -21,15 +52,7 @@ class Index(View):
         self,
     ):
         notes = Notes.query.order_by(desc(Notes.created_on)).all()
-        per_page = 14
-        page_no = request.args.get(
-            get_page_parameter(),
-            type=int,
-            default=1,
-        )
-        pagination = Pagination(
-            total=len(notes), page=page_no, record_name="notes", per_page=per_page
-        )
+        notes, pagination = get_notes_pagination(notes)
         return render_template("notes/index.html", **locals())
 
 
@@ -70,16 +93,7 @@ class TagView(View):
             .limit(10)
             .all()
         )
-        pagination = Pagination(
-            total=len(notes),
-            page=request.args.get(
-                get_page_parameter(),
-                type=int,
-                default=1,
-            ),
-            record_name="notes",
-            per_page=14,
-        )
+        notes, pagination = get_notes_pagination(notes)
         return render_template("notes/index.html", **locals())
 
 
@@ -95,15 +109,7 @@ class PinnedView(View):
             .limit(10)
             .all()
         )
-        page_no = request.args.get(
-            get_page_parameter(),
-            type=int,
-            default=1,
-        )
-        per_page = 14
-        pagination = Pagination(
-            total=len(notes), page=page_no, record_name="notes", per_page=per_page
-        )
+        notes, pagination = get_notes_pagination(notes)
         return render_template("notes/index.html", **locals())
 
 
@@ -121,15 +127,7 @@ class TimeView(View):
             .limit(10)
             .all()
         )
-        page_no = request.args.get(
-            get_page_parameter(),
-            type=int,
-            default=1,
-        )
-        per_page = 14
-        pagination = Pagination(
-            total=len(notes), page=page_no, record_name="notes", per_page=per_page
-        )
+        notes, pagination = get_notes_pagination(notes)
         return render_template("notes/index.html", **locals())
 
 
@@ -188,8 +186,16 @@ class SearchView(MethodView):
         return jsonify(dict(result=resp))
 
     def post(self):
-        query = request.form.get("q", "")
-        filter = request.form.get("filter", "any")
+        session_query = session.get('q','')
+        query = request.form.get("q", session_query)
+        session['q'] = query
+        
+        session_filter = session.get('filter','any')
+        filter = request.form.get("filter", session_filter)
+        session['filter'] = filter
+        
+        #request.args['per_page'] = request.form.get('display','14')
+        
         notes = (
             Notes.query.filter(
                 self.get_filters(
@@ -200,14 +206,7 @@ class SearchView(MethodView):
             .order_by(desc(Notes.created_on))
             .all()
         )
-        page_no = request.args.get(
-            get_page_parameter(),
-            type=int,
-            default=1,
-        )
-        pagination = Pagination(
-            total=len(notes), per_page=14, page=page_no, record_name="notes"
-        )
+        notes, pagination = get_notes_pagination(notes)
         return render_template("notes/index.html", **locals())
 
 

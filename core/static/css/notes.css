@@ -1,5 +1,5 @@
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:hover {
@@ -78,4 +78,39 @@ figcaption{
 
 .preserve {
  word-break : initial;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #333;
+  text-decoration: none;
+}
+
+.page-link:hover {
+  background-color: #ddd;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.page-item.disabled .page-link {
+  opacity: 0.5;
+  pointer-events: none;
 }
