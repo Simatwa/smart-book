@@ -124,7 +124,7 @@ class Accounts:
                     try_user.last_login = datetime.utcnow()
                     db.session.commit()
                     login_user(try_user)
-                    return redirect(url_for("admin.index"))
+                    return redirect(url_for("notes1.index"))
 
                 else:
                     flash("Incorrect identifier or password!", "error")

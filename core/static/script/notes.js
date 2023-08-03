@@ -136,8 +136,10 @@ function handleSubmit() {
   const xhr = new XMLHttpRequest();
 
   // Set up the request
-  xhr.open('GET', `${actionUrl}?q=${inputValueQuery}&f=${inputValueFilter}&d=${inputValueDisplay}`, true);
+  xhr.open('GET', `${actionUrl}?q=${inputValueQuery}&filter=${inputValueFilter}&display=${inputValueDisplay}`, true);
 
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  
   // Set the response type
   xhr.responseType = 'json';
 
@@ -165,7 +167,7 @@ function generateHTML(result) {
   let html = '';
   result.forEach(item => {
     html += `
-    <div class="w3-display-container">
+    <div class="w3-display-container w3-margin">
     <button class="w3-display-topright w3-btn w3-transparent w3-text-black" onclick="this.parentElement.style.display='none'">&times</button>
     <p class="w3-text-red w3-pale-yellow w3-border w3-round w3-padding">
         <a href="${item[0]}">${item[1].replace(/[^\x00-\x7F]/g, "")}
