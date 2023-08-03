@@ -254,3 +254,13 @@ function loadMore(url){
   spinner.style.display = 'block';
   requests('POST', url, displayMoreContent);
 }
+
+function open_nav(){
+ var sidebar = document.getElementById("sideBar");
+ sidebar.style.display = "block";
+}
+
+function close_nav(){
+ var sidebar = document.getElementById("sideBar");
+ sidebar.style.display = "none";
+}

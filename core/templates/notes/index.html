@@ -1,20 +1,21 @@
 {% extends 'base_.html' %}
 {% block body %}
-<div class="w3-container w3-cell">
+<div class="w3-row-padding w3-section w3-stretch">
 {{ pagination.info }}
 {% for notes in notes %}
-<div class="w3-container w3-display-container w3-cell-row w3-padding w3-card-4">
- <h2 class="w3-center title"><a href="#link-to-view"> {{ notes.title }}</a> </h2>
- <div class="w3-cell">
+<div class="w3-col s6 m4 l3 w3-card-4">
+ <h4 class="w3-center"><a href="{{ url_for('notes1.note_view', id=notes.id) }}"> {{ notes.title }}</a> </h4>
+ 
+ <div class="w3-cell-row">
  {% for tag in notes.tags %}
-   <div class="w3-cell-row w3-padding w3-border w3-border-green">
-   <p class="w3-text-{{ tag.color }} w3-center">{{ tag }}</p>
-   </div>
+   <a href="{{ url_for('notes1.tag_view',tag=tag.name) }}" class="w3-cell w3-padding w3-mobile w3-border-large w3-border w3-border-green w3-center" style="color:{{ tag.theme }}">
+   {{ tag }}
+   </a>
  {% endfor %}
  </div>
- <div class="w3-container">
-  <p class="w3-food-pears w3-border">{{ notes.created_on }} </p>
- </div>
+ <p>{{ notes.intro }}<p>
+  <p class="w3-blue-gray w3-border-large w3-center" style="margin-left:10%; margin-right:10%;"><script>document.write(formatTimeAgoShort("{{ notes.created_on }}"));</script> </p>
+ 
 </div>
 {% endfor %}
 <div class="w3-container">

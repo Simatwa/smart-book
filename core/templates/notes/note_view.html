@@ -1,0 +1,113 @@
+{% extends 'base_.html' %}
+
+{% block head %}
+<title> {{ note.title }} | Notes </title>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-container">
+ <div class="w3-threequarter">
+ <header class='title w3-center'>{{ note.title }}</header>
+ 
+ <div class="w3-container">
+ <p class="w3-left">
+ <i class="fa fa-calendar"></i> 
+ <script>document.write(formatTimeAgo("{{ note.created_on }}"));</script>
+ </p>
+ 
+ <p class="w3-right">
+ <a href="{{ url_for('notes.edit_view',id=note.id) }}"><i class="fa fa-edit"></i></a>
+ {{ note.author[0] }}
+ </p>
+ </div>
+ 
+ <div class="w3-cell-row w3-margin-top">
+  {% for tag in note.tags %}
+   <a href="{{ url_for('notes1.tag_view',tag=tag.name) }}" class="w3-cell w3-padding w3-mobile w3-border-large w3-border w3-border-green w3-center" style="color:{{ tag.theme }}">
+   {{ tag }}
+   </a>
+  {% endfor %}
+ </div>
+ 
+ <div class="w3-container">
+ {% if note.is_markdown %}
+ <div class="formatted-content">
+   {{ note.content|safe }}
+  </div>
+ {% else %}
+ <pre class="raw-content">
+   {{ note.content }}
+ </pre>
+ {% endif %}
+ </div>
+ <div class="w3-container">
+   <p class="w3-left">
+     <i class="fa fa-eye w3-large"></i>{{ note.views }}
+   </p>
+   
+   <p class="w3-right">
+   <!-- Action handled by JS  -->
+   <button class="w3-btn" onclick="pinNote">
+    <i class="fa fa-paperclip w3-large"></i>
+   </button>
+   <p>
+ </div>
+ 
+ <!-- Related contents -->
+ <div class="w3-container">
+ <h3 class="w3-bottombar w3-border-blue">Related</h3>
+<div class="w3-row-padding w3-section w3-stretch">
+{% for notes in related_notes %}
+<div class="w3-col s6 m4 l3 w3-card-4">
+ <h4 class="w3-center"><a href="{{ url_for('notes1.note_view', id=notes.id) }}"> {{ notes.title }}</a> </h4>
+ 
+ <div class="w3-cell-row">
+ {% for tag in notes.tags %}
+   <a href="{{ url_for('notes1.tag_view',tag=tag.name) }}" class="w3-cell w3-padding w3-mobile w3-border-large w3-border w3-border-green w3-center" style="color:{{ tag.theme }}">
+   {{ tag }}
+   </a>
+ {% endfor %}
+ </div>
+ <p>{{ notes.intro }}<p>
+  <p class="w3-pale-red w3-border-large w3-center" style="margin-left:10%; margin-right:10%;"><script>document.write(formatTimeAgoShort("{{ notes.created_on }}"));</script> </p>
+ 
+</div>
+{% endfor %}
+
+ </div>
+ 
+ </div>
+ 
+ </div>
+ 
+ <!-- Recent Articles --->
+ <div class="w3-rest w3-hide-small"> 
+   <div class="w3-container">
+    <h3 class="w3-leftbar w3-border-teal">Recent Notes</h3>
+    
+<div class="w3-row-padding w3-section w3-stretch">
+
+{% for notes in recent_notes %}
+<div class="w3-col s12 m12 l12 w3-card-4">
+ <h4 class="w3-center"><a href="{{ url_for('notes1.note_view', id=notes.id) }}"> {{ notes.title }}</a> </h4>
+ 
+ <div class="w3-cell-row">
+ {% for tag in notes.tags %}
+   <a href="{{ url_for('notes1.tag_view',tag=tag.name) }}" class="w3-cell w3-padding w3-mobile w3-border-large w3-border w3-border-green w3-center" style="color:{{ tag.theme }}">
+   {{ tag }}
+   </a>
+ {% endfor %}
+ </div>
+ <p>{{ notes.intro }}<p>
+  <p class="w3-food-spearmint w3-border-large w3-center" style="margin-left:10%; margin-right:10%;"><script>document.write(formatTimeAgoShort("{{ notes.created_on }}"));</script> </p>
+ 
+</div>
+{% endfor %} 
+ </div>
+ </div>
+ </div>
+
+</div>
+
+{% endblock %}

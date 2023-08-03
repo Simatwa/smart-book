@@ -75,3 +75,7 @@ figcaption{
  font-family:courier;
  font-style:italic;
 }
+
+.preserve {
+ word-break : initial;
+}

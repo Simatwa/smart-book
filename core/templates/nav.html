@@ -1,10 +1,11 @@
-<div class="w3-blue">
+<div class="w3-row-padding w3-stretch w3-blue" style="margin-top:0;">
 <!--- Sidebar -->
- <div class="w3-left w3-container">
+ <div class="w3-col s4 m4 l4 w3-left">
  <button class="w3-button" onclick="open_nav();">
-  <i class="fa fa-bar w3-xxlarge"></i>
+  <i class="fa fa-bars w3-xxlarge"></i>
   </button>
- <div id="sideBar" class="w3-container we-display-container w3-light-blue w3-animate-left" style="z-index:3; width:260px">
+  
+ <div id="sideBar" class="w3-sidebar w3-collapse w3-bar-block w3-card w3-display-container w3-light-blue w3-animate-left" style="z-index:9999; margin-left:0;width:180px;display:none;">
   
   <div class="w3-display-topright">
   <!-- Close sidebar -->
@@ -15,37 +16,68 @@
   
   <div class="w3-bar">
   
-  <div class="w3-bar-item-block">
-  <a href="#">Recently </a>
-  </div>
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('notes1.index') }}"><i class="fa fa-home w3-xlarge"></i> Home</a>
+  </button>
+ 
+  <button class="w3-btn w3-bar-item w3-hide-large w3-hide-medium">
+  <a href="{{ url_for('notes1.pinned_view') }}"><i class="fa fa-paperclip w3-xlarge"></i> Pinned </a>
+  </button>
+   
+  <button class="w3-btn w3-bar-item w3-hide-large w3-hide-medium">
+  <a href="{{ url_for('notes1.time_view',days=1) }}"><i class="fa fa-history w3-xlarge"></i> Recent </a>
+  </button>
   
-  <div class="w3-bar-item-block">
-  <a href="#">Last week </a>
-  </div>
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('notes1.time_view', days=7) }}"><i class="fa fa-calendar w3-xlarge"></i> This week </a>
+  </button>
  
-  <div class="w3-bar-item-block">
-  <a href="#">Last Month </a>
-  </div>
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('notes1.time_view', days=30) }}"><i class="fa fa-calendar w3-xlarge"></i> This Month </a>
+  </button>
      
-  <div class="w3-bar-item-block">
-  <a href="#">Last Year</a>
-  </div>
-       
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('notes1.time_view', days=365) }}"><i class="fa fa-calendar w3-xlarge"></i> This Year</a>
+  </button>
+ 
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('notes.create_view',) }}"><i class="fa fa-edit w3-xlarge"></i> New Note</a>
+  </button>
+
+  <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('tags.create_view',) }}"><i class="fa fa-tags w3-xlarge"></i> New Tag</a>
+  </button>
+            
+  {% if current_user.is_authenticated and current_user.is_admin %}
+   <button class="w3-btn w3-bar-item">
+  <a href="{{ url_for('admin.index') }}"><i class="w3-xlarge fa fa-user w3-crimson"></i> Admin</a>
+  </button>    
+  {% endif %}  
+  
   </div>
  </div>
  </div>
  
- <div class="w3-center w3-container">
- <header class="w3-xxxlarge">{{ app_details.name }} </header>
+ <div class="w3-col s4 m4 l4 w3-center">
+ <header class="w3-xxlarge w3-center preserve">
+ <a href="{{ url_for('notes1.index') }}"> {{ app_details.name }}</a>
+  </header>
  </div>
  
- <div class="w3-right w3-container">
-  <form class="w3-hide-small" action="#" method="POST" enctype="multipart/form-data">
+ <div class="w3-col s4 m4 l4">
+ <button class="w3-btn w3-right" onclick="w3.show('#searchForm');">
+  <i class="fa fa-search w3-xxlarge"></i>
+ </button>
+ 
+ <!-- Large screens form 
+  <form action="#" method="POST" enctype="multipart/form-data">
   <input type="search" placeholder="Search ..." required></input>
   <button type="submit" class="w3-button w3-right">
-    <i class="fa fa-search"></i>
+    <i class="fa fa-search w3-xxlarge"></i>
   </button>
   </form>
+  -->
+  
  </div>
  
 </div>

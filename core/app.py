@@ -26,6 +26,24 @@ Minify(application)
 
 FILES_DIR = application.config["UPLOAD_FILES_DIR"]
 
+markdown_extensions = [
+    "markdown.extensions.abbr",
+    "markdown.extensions.admonition",
+    "markdown.extensions.attr_list",
+    "markdown.extensions.codehilite",
+    "markdown.extensions.def_list",
+    "markdown.extensions.extra",
+    "markdown.extensions.fenced_code",
+    "markdown.extensions.footnotes",
+    "markdown.extensions.legacy_attrs",
+    "markdown.extensions.legacy_em",
+    "markdown.extensions.meta",
+    "markdown.extensions.nl2br",
+    "markdown.extensions.sane_lists",
+    "markdown.extensions.tables",
+    "markdown.extensions.toc",
+]
+
 
 def send_mail(subject, *args, **kwargs):
     """Sends mail"""
@@ -34,6 +52,11 @@ def send_mail(subject, *args, **kwargs):
         mail.send(message)
     except Exception as e:
         logging.exception(e)
+
+
+@application.template_global()
+def str_(element):
+    return str(element)
 
 
 @application.route("/", methods=["GET", "POST"])
