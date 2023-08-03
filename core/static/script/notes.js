@@ -117,15 +117,17 @@ function handleSubmit() {
   //event.preventDefault(); // Prevent form submission
 
   // Get the input value
-  const inputValue = document.querySelector('input[id="mobileSearchQuery"]').value;
-  const outputDiv = document.getElementById('mobileSearchDisplay');
+  const inputValueQuery = document.querySelector('input[name="q"]').value;
+  const inputValueFilter = document.querySelector('select[name="filter"]').value;
+  const inputValueDisplay = document.querySelector('input[name="display"]').value;
+  const outputDiv = document.getElementById('searchDisplay');
   
-  if (inputValue === "") {
+  if (inputValueQuery === "") {
      outputDiv.style.display = 'none';
     return 
   }
 
-  const form = document.getElementById('mobileSearch');
+  const form = document.getElementById("searchForm");
 
   // Get the form action URL
   const actionUrl = form.action;
@@ -134,7 +136,7 @@ function handleSubmit() {
   const xhr = new XMLHttpRequest();
 
   // Set up the request
-  xhr.open('GET', `${actionUrl}?q=${inputValue}`, true);
+  xhr.open('GET', `${actionUrl}?q=${inputValueQuery}&f=${inputValueFilter}&d=${inputValueDisplay}`, true);
 
   // Set the response type
   xhr.responseType = 'json';
@@ -167,7 +169,10 @@ function generateHTML(result) {
     <button class="w3-display-topright w3-btn w3-transparent w3-text-black" onclick="this.parentElement.style.display='none'">&times</button>
     <p class="w3-text-red w3-pale-yellow w3-border w3-round w3-padding">
         <a href="${item[0]}">${item[1].replace(/[^\x00-\x7F]/g, "")}
-        </a></p>
+        </a>
+        <br>
+        <span class="w3-text-blue w3-small">${item[2]}</span>
+        </p>
       </div>
         `;
   });

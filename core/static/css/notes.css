@@ -20,7 +20,7 @@ img, video, audio {
 }
 
 input:focus {
-  border-color: red !important;
+   border-color: blue !important; */
 }
 
 @font-face {
