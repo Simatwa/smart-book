@@ -27,7 +27,7 @@ def get_notes_pagination(objects):
     else:
         end = per_page * page_no
         start = end - per_page
-        
+
         if start < total and end < total:
             notes = objects[start:end]
 

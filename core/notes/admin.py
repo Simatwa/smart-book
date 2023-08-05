@@ -31,8 +31,13 @@ class NotesModelView(ModelView):
     can_view_details = True
     column_display_pk = True
     form_base_class = SecureForm
-    form_excluded_columns = ["created_on", "lastly_modified", "views","content_formatted",]
-    column_exclude_list = ["content","content_formatted"]
+    form_excluded_columns = [
+        "created_on",
+        "lastly_modified",
+        "views",
+        "content_formatted",
+    ]
+    column_exclude_list = ["content", "content_formatted"]
     column_filters = ["title", "content", "created_on", "lastly_modified"]
     column_searchable_list = ["title", "content", "file"]
     column_editable_list = ["is_pinned", "is_markdown", "views"]
@@ -107,7 +112,9 @@ class TagsModelView(ModelView):
             "render_kw": {
                 "placeholder": "Tag slang",
             },
-         "validators" : [DataRequired(message="Name cannot be null"),],
+            "validators": [
+                DataRequired(message="Name cannot be null"),
+            ],
         },
         "highlight": {
             "render_kw": {

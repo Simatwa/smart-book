@@ -143,11 +143,13 @@ class LocalEventListener:
             "<a ": '<A class="link" ',
         }
         for tag in tags_dict:
-            target.content_formatted = re.sub(tag, tags_dict[tag], target.content_formatted)
+            target.content_formatted = re.sub(
+                tag, tags_dict[tag], target.content_formatted
+            )
 
     @staticmethod
     def format_markdown_article(mapper, connections, target):
-        
+
         target.content_formatted = target.content
         if target.is_markdown and target.content_formatted:
             target.content_formatted = (
@@ -168,7 +170,7 @@ class LocalEventListener:
                 target.content_formatted % kwargs, extensions=markdown_extensions
             )
             LocalEventListener.add_w3_styles(target)
-        
+
 
 db.event.listen(Notes, "before_insert", LocalEventListener.format_markdown_article)
 db.event.listen(Notes, "before_update", LocalEventListener.format_markdown_article)
