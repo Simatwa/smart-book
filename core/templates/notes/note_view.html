@@ -33,11 +33,11 @@
  <div class="w3-container">
  {% if note.is_markdown %}
  <div class="formatted-content">
-   {{ note.content|safe }}
+   {{ note.content_formatted|safe }}
   </div>
  {% else %}
  <pre class="raw-content">
-   {{ note.content }}
+   {{ note.content_formatted }}
  </pre>
  {% endif %}
  </div>

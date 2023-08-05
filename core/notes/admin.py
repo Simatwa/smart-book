@@ -7,7 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 from os import path
 from core.app import FILES_DIR
-from flask import redirect, url_for
+from flask import redirect, url_for, flash
 from core.admin import admin
 from core.notes.models import Notes, Tags
 from core.admin import admin
@@ -31,8 +31,8 @@ class NotesModelView(ModelView):
     can_view_details = True
     column_display_pk = True
     form_base_class = SecureForm
-    form_excluded_columns = ["created_on", "lastly_modified", "views"]
-    column_exclude_list = ["content"]
+    form_excluded_columns = ["created_on", "lastly_modified", "views","content_formatted",]
+    column_exclude_list = ["content","content_formatted"]
     column_filters = ["title", "content", "created_on", "lastly_modified"]
     column_searchable_list = ["title", "content", "file"]
     column_editable_list = ["is_pinned", "is_markdown", "views"]
@@ -107,6 +107,7 @@ class TagsModelView(ModelView):
             "render_kw": {
                 "placeholder": "Tag slang",
             },
+         "validators" : [DataRequired(message="Name cannot be null"),],
         },
         "highlight": {
             "render_kw": {

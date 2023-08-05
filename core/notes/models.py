@@ -15,6 +15,7 @@ class Notes(db.Model):
     content = db.Column(
         db.Text,
     )
+    content_formatted = db.Column(db.Text)
     intro = db.Column(db.Text, nullable=True, default="")
     file = db.Column(db.String(60))
     tags = db.relationship("Tags", secondary="notes_tags", lazy=True)
@@ -30,7 +31,7 @@ class Notes(db.Model):
 class Tags(db.Model):
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(40), nullable=False)
+    name = db.Column(db.String(40), unique=True)
     highlight = db.Column(
         db.Text,
     )
@@ -142,13 +143,15 @@ class LocalEventListener:
             "<a ": '<A class="link" ',
         }
         for tag in tags_dict:
-            target.content = re.sub(tag, tags_dict[tag], target.content)
+            target.content_formatted = re.sub(tag, tags_dict[tag], target.content_formatted)
 
     @staticmethod
     def format_markdown_article(mapper, connections, target):
-        if target.is_markdown and target.content:
-            target.content = (
-                target.content.replace("%(", "(}}}}")
+        
+        target.content_formatted = target.content
+        if target.is_markdown and target.content_formatted:
+            target.content_formatted = (
+                target.content_formatted.replace("%(", "(}}}}")
                 .replace("%", "%%")
                 .replace("(}}}}", "%(")
             )
@@ -161,11 +164,11 @@ class LocalEventListener:
                     gen_file_link(target.file)
                 )
 
-            target.content = markdown.markdown(
-                target.content % kwargs, extensions=markdown_extensions
+            target.content_formatted = markdown.markdown(
+                target.content_formatted % kwargs, extensions=markdown_extensions
             )
             LocalEventListener.add_w3_styles(target)
-
+        
 
 db.event.listen(Notes, "before_insert", LocalEventListener.format_markdown_article)
 db.event.listen(Notes, "before_update", LocalEventListener.format_markdown_article)

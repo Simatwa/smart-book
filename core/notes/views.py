@@ -27,8 +27,7 @@ def get_notes_pagination(objects):
     else:
         end = per_page * page_no
         start = end - per_page
-        if start > total:
-            notes = []
+        
         if start < total and end < total:
             notes = objects[start:end]
 
@@ -36,7 +35,7 @@ def get_notes_pagination(objects):
             notes = objects[start:]
 
         else:
-            notes = objects
+            notes = []
 
     pagination = Pagination(
         total=total, page=page_no, record_name="notes", per_page=per_page
@@ -182,7 +181,7 @@ class SearchView(MethodView):
             raw_resp = (
                 Notes.query.filter(self.get_filters(query, filter))
                 .order_by(desc(Notes.created_on))
-                .with_entities(Notes.id, Notes.title, Notes.created_on)
+                .with_entities(Notes.id, Notes.title, Notes.lastly_modified)
                 .limit(display)
                 .all()
             )
